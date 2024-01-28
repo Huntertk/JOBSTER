@@ -1,0 +1,109 @@
+import { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom'
+import { FormRow, Logo } from '../components/index';
+import Wrapper from '../assets/wrappers/RegisterPage';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, registerUser } from '../features/user/userSlice';
+
+const initialState = {
+  name:'',
+  email:'',
+  password:'',
+  isMemeber: false
+}
+
+const Register = () => {
+  const [values, setValues] = useState(initialState)
+  const {user, isLoading} = useSelector(store => store.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    setValues((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value
+      }
+    })
+  } 
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const {name, email, password, isMemeber} = values
+    if(!email || !password || (!isMemeber && !name)){
+     toast.warning("Please Provide All Values");
+     return
+    }
+    if(isMemeber){
+      dispatch(loginUser({email, password}))
+      return
+    }
+    dispatch(registerUser({name,email, password}))
+  }
+
+  const toggleMember = () => {
+    setValues((prev) => {
+      return {
+        ...prev,
+        isMemeber: !prev.isMemeber
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(user){
+      navigate("/")
+    }
+  },[user])
+
+
+  return (
+    <Wrapper className='full-page'>
+      <form className='form' onSubmit={onSubmit}>
+        <Logo />
+        <h3>{values.isMemeber ? "Login" : "Register"}</h3>
+        {/*Name Feild */}
+        {
+          !values.isMemeber && (
+            <FormRow 
+            type="text"
+            name="name"
+            value={values.name} 
+            handleChange={handleChange} 
+            labelText="name"
+            />
+          )
+        }
+
+        {/*Email Feild */}
+        <FormRow 
+        type="email"
+        name="email"
+        value={values.email} 
+        handleChange={handleChange} 
+        labelText="email"
+        />
+
+        {/*Email Feild */}
+        <FormRow 
+        type="password"
+        name="password"
+        value={values.password} 
+        handleChange={handleChange} 
+        labelText="password"
+        />
+        <button type="submit" className='btn btn-block' disabled={isLoading}>
+          {isLoading? "Loading....." : "Submit"}
+        </button>
+        <p>
+          {values.isMemeber ? "Not a member yet" : "Already a member"}
+          <button type="button" onClick={toggleMember} className='member-btn'>{values.isMemeber ? "Register" :"Login"}</button>
+        </p>
+      </form>
+    </Wrapper>
+  )
+}
+
+export default Register
