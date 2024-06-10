@@ -36,9 +36,10 @@ const Register = () => {
           type={"password"}
           name={"password"}
           labelText={"password"}
-          defaultValue={"xxxxxxxx"}
+          defaultValue={"password"}
         />
         <button type='submit' className='btn btn-block'>submit</button>
+        <button type='button' className='btn btn-block'>explore app</button>
         <p>Already a member ?
           <Link to="/login" className='member-btn'>Login</Link>
         </p>
