@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   }
 
   const toggleSidebar = () => {
-    console.log("Sidebar");
+    console.log("Sidebar toggle");
     setShowSidebar((prev) => !prev)
   }
 
