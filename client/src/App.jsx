@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { DashboardLayout, Error, HomeLayout, Landing, Login, Register } from './pages';
+import { AddJob, Admin, AllJobs, DashboardLayout, Error, HomeLayout, Landing, Login, Profile, Register, Stats } from './pages';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,29 @@ const router = createBrowserRouter([
       },
       {
         path:"dashboard",
-        element: <DashboardLayout />
+        element: <DashboardLayout />,
+        children:[
+          {
+            index: true,
+            element: <AddJob />
+          },
+          {
+            path:"stats",
+            element: <Stats />
+          },
+          {
+            path:"all-jobs",
+            element: <AllJobs />
+          },
+          {
+            path:"profile",
+            element: <Profile />
+          },
+          {
+            path:"admin",
+            element: <Admin />
+          },
+        ]
       },
     ]
   },
@@ -30,9 +52,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <div>
+    <>
       <RouterProvider router={router}/>
-    </div>
+    </>
   )
 }
 
