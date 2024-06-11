@@ -9,7 +9,7 @@ export const useDashboardContext = () => useContext(DashboardContext)
 
 const DashboardLayout = () => {
   const user = {name:"TAUFIK"}
-  const [showSidebar, setShowSidebar] = useState(false)
+  const [showSidebar, setShowSidebar] = useState(true)
   const [isDarkTheme, setIsDarkTheme] = useState(false)
 
   const toggleDarkTheme = () => {
