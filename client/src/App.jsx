@@ -1,14 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AddJob, Admin, AllJobs, DashboardLayout, Error, HomeLayout, Landing, Login, Profile, Register, Stats } from './pages';
 
-const checkDefaultTheme = () => {
+export const checkDefaultTheme = () => {
   const isDarkTheme =  localStorage.getItem('darkTheme') === 'true'
   document.body.classList.toggle('dark-theme', isDarkTheme)
   return isDarkTheme;
 }
-
-
-const isDarkThemeEnabled = checkDefaultTheme();
+checkDefaultTheme();
 
 
 const router = createBrowserRouter([
@@ -31,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path:"dashboard",
-        element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
+        element: <DashboardLayout />,
         children:[
           {
             index: true,
