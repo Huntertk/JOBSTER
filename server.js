@@ -1,9 +1,17 @@
 import express from 'express';
 
+
+//Express App Initialization
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello')
+
+//Middlewares
+app.use(express.json())
+
+//Routes
+app.post('/', (req, res) => {
+    console.log(req.body);
+    res.json({messgae:"Body Recieved", data: req.body})
 })
 
 app.listen(3000, () => {
