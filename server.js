@@ -1,1 +1,1 @@
-console.log("Server is Working.....");
+console.log("Teri Maa Ki Chut");

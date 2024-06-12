@@ -1,10 +1,12 @@
 {
   "name": "jobster",
   "version": "1.0.0",
-  "description": "[Jobify](https://jobify.live/)",
-  "main": "index.js",
+  "description": "Jobify",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "project-setup":"npm i && cd client && npm i",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
