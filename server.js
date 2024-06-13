@@ -24,16 +24,26 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //Routes
-app.post('/', (req, res) => {
-    console.log(req.body);
-    res.json({messgae:"Body Recieved", data: req.body})
+app.get('/', (req, res) => {
+  res.json({messgae:"Hello"})
 })
 
-  
+//Get All Jobs  
 app.get('/api/v1/jobs', (req, res) => {
   res.status(200).json({ jobs });
 });
 
+//Create Job
+app.post('/api/v1/jobs', (req, res) => {
+  const {company, position} = req.body;
+  if(!company || !position){
+    return res.status(400).json({messgae:"Please Provide value"})
+  }
+  const id = nanoid();
+  const job = {id, company, position}
+  jobs.push(job)
+  res.status(201).json({messgae:"Job Created", data: job})
+})
 
 //Server Listining...
 app.listen(PORT, () => {
