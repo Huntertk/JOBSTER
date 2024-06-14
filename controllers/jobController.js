@@ -1,5 +1,7 @@
-import { nanoid } from 'nanoid';
+import Job from '../models/jobModel.js';
 
+
+import { nanoid } from 'nanoid';
 
 let jobs = [
   { id: nanoid(), company: 'apple', position: 'front-end' },
@@ -12,15 +14,9 @@ export const getAllJobs = async (req, res) => {
 }
 
 //Create Job
-export const createJob = (req, res) => {
-    const {company, position} = req.body;
-    if(!company || !position){
-      return res.status(400).json({messgae:"Please Provide value"})
-    }
-    const id = nanoid();
-    const job = {id, company, position}
-    jobs.push(job)
-    res.status(201).json({messgae:"Job Created", data: job})
+export const createJob = async (req, res) => {
+    const job = await Job.create(req.body);
+    res.status(201).json({msg:"Job Created", job});
 }
 
 // GET SINGLE JOB
