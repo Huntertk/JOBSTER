@@ -2,8 +2,9 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import morgan from 'morgan';
+import jobRouter from './routes/jobRouter.js';
+import mongoose from 'mongoose';
 
-import jobRouter from './routes/jobRouter.js'
 
 //Express App Initialization
 const app = express();
@@ -34,7 +35,20 @@ app.use((err, req, res) => {
   res.status(500).json({msg:"Error", error:err})
 })
 
-//Server Listining...
-app.listen(PORT, () => {
-    console.log(`server running on PORT ${PORT}....`);
-})
+//Server Listining... || Db Connection
+
+const dbConn = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL)
+    console.log("Db Connected");
+    app.listen(PORT, () => {
+      console.log(`server running on PORT ${PORT}....`);
+    })
+
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+dbConn();
