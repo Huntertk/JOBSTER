@@ -89,6 +89,16 @@ app.delete('/api/v1/jobs/:id', (req, res) => {
   res.status(200).json({ msg: 'job deleted' });
 });
 
+
+app.use('*', (req, res) => {
+  res.status(404).json({msg:"Not Found"})
+})
+
+app.use((err, req, res) => {
+  console.log(err);
+  res.status(500).json({msg:"Error", error:err})
+})
+
 //Server Listining...
 app.listen(PORT, () => {
     console.log(`server running on PORT ${PORT}....`);
