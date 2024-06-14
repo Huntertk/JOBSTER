@@ -14,9 +14,14 @@ export const getAllJobs = async (req, res) => {
 }
 
 //Create Job
-export const createJob = async (req, res) => {
+export const createJob = async (req, res, next) => {
+  try {
     const job = await Job.create(req.body);
     res.status(201).json({msg:"Job Created", job});
+    
+    } catch (error) {
+      next(error)
+  }
 }
 
 // GET SINGLE JOB
