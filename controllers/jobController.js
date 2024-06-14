@@ -1,13 +1,5 @@
 import Job from '../models/jobModel.js';
 
-
-import { nanoid } from 'nanoid';
-
-let jobs = [
-  { id: nanoid(), company: 'apple', position: 'front-end' },
-  { id: nanoid(), company: 'google', position: 'back-end' },
-];
-
 //Get All Jobs
 export const getAllJobs = async (req, res, next) => {
   try {
@@ -51,7 +43,7 @@ export const updateJob = async (req, res) => {
     if (!job) {
       return res.status(404).json({ msg: `no job with id ${id}` });
     }
-    
+
     res.status(200).json({ msg: 'job modified', job });
 }
 
