@@ -1,10 +1,11 @@
 import Job from '../models/jobModel.js';
+import { StatusCodes } from 'http-status-codes';
 
 //Get All Jobs
 export const getAllJobs = async (req, res, next) => {
   try {
     const jobs = await Job.find();
-    res.status(200).json({ jobs });
+    res.status(StatusCodes.OK).json({ jobs });
   } catch (error) {
     next(error)
   }
@@ -14,7 +15,7 @@ export const getAllJobs = async (req, res, next) => {
 export const createJob = async (req, res, next) => {
   try {
     const job = await Job.create(req.body);
-    res.status(201).json({msg:"Job Created", job});
+    res.status(StatusCodes.CREATED).json({msg:"Job Created", job});
     
     } catch (error) {
       next(error)
@@ -27,9 +28,9 @@ export const getJob = async (req, res, next) => {
     const { id } = req.params;
     const job = await Job.findById(id)
     if (!job) {
-      return res.status(404).json({ msg: `no job with id ${id}` });
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: `no job with id ${id}` });
     }
-    res.status(200).json({ job });
+    res.status(StatusCodes.OK).json({ job });
   } catch (error) {
     next(error)
   }
@@ -41,10 +42,10 @@ export const updateJob = async (req, res) => {
     const job = await Job.findByIdAndUpdate(id,req.body,{new:true})
   
     if (!job) {
-      return res.status(404).json({ msg: `no job with id ${id}` });
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: `no job with id ${id}` });
     }
 
-    res.status(200).json({ msg: 'job modified', job });
+    res.status(StatusCodes.OK).json({ msg: 'job modified', job });
 }
 
 // DELETE JOB
@@ -53,9 +54,9 @@ export const deleteJob = async (req, res, next) => {
       const { id } = req.params;
       const job = await Job.findByIdAndDelete(id)
       if (!job) {
-        return res.status(404).json({ msg: `no job with id ${id}` });
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `no job with id ${id}` });
       }
-      res.status(200).json({ msg: 'job deleted' });
+      res.status(StatusCodes.OK).json({ msg: 'job deleted' });
       
     } catch (error) {
       next(error)
