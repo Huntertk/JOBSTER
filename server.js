@@ -5,8 +5,7 @@ import morgan from 'morgan';
 import jobRouter from './routes/jobRouter.js';
 import mongoose from 'mongoose';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
-
-import { body, validationResult } from 'express-validator';
+import { validateTest } from './middleware/validationMiddleware.js';
 
 //Express App Initialization
 const app = express();
@@ -26,19 +25,7 @@ app.get('/', (req, res) => {
   res.json({messgae:"Hello"})
 })
 
-app.post('/api/v1/test', [
-    body('name').notEmpty().withMessage('Please Provide Name')
-  ],
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-      const errorMessages = errors.array().map((error) => error.msg)
-      return res.status(400).json({messgae: errorMessages})
-    }
-    next()
-    console.log(errors.isEmpty());
-  },
-  (req, res) => {
+app.post('/api/v1/test', validateTest, (req, res) => {
     const {name} = req.body;
     res.json({messgae:`Hello ${name}`})
 })
