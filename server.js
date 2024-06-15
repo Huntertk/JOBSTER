@@ -4,6 +4,7 @@ import express from 'express';
 import morgan from 'morgan';
 import jobRouter from './routes/jobRouter.js';
 import mongoose from 'mongoose';
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
 
 //Express App Initialization
@@ -30,10 +31,7 @@ app.use('*', (req, res) => {
   res.status(404).json({msg:"Not Found"})
 })
 
-app.use((err, req, res) => {
-  console.log(err);
-  res.status(500).json({msg:"Error", error:err})
-})
+app.use(errorHandlerMiddleware)
 
 //Server Listining... || Db Connection
 
