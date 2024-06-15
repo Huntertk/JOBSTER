@@ -6,6 +6,7 @@ import jobRouter from './routes/jobRouter.js';
 import mongoose from 'mongoose';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
+import { body, validationResult } from 'express-validator';
 
 //Express App Initialization
 const app = express();
@@ -24,6 +25,24 @@ if (process.env.NODE_ENV === 'development') {
 app.get('/', (req, res) => {
   res.json({messgae:"Hello"})
 })
+
+app.post('/api/v1/test', [
+    body('name').notEmpty().withMessage('Please Provide Name')
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      const errorMessages = errors.array().map((error) => error.msg)
+      return res.status(400).json({messgae: errorMessages})
+    }
+    next()
+    console.log(errors.isEmpty());
+  },
+  (req, res) => {
+    const {name} = req.body;
+    res.json({messgae:`Hello ${name}`})
+})
+
 
 app.use('/api/v1/jobs', jobRouter)
 
