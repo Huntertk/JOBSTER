@@ -43,3 +43,25 @@ export const validateIdParam = withValidationErrors([
     .custom((value) => mongoose.Types.ObjectId.isValid(value))
     .withMessage('invalid MongoDB id'),
 ])
+
+export const validateRegisterInput = withValidationErrors([
+  body('name')
+    .notEmpty()
+    .withMessage('name is required'),
+  body('email')
+    .notEmpty()
+    .withMessage('email is required')
+    .isEmail()
+    .withMessage('invalid email format'),
+  body('password')
+    .notEmpty()
+    .withMessage('password is required')
+    .isLength({ min: 8 })
+    .withMessage('password must be at least 8 characters long'),
+  body('location')
+    .notEmpty()
+    .withMessage('location is required'),
+  body('lastName')
+    .notEmpty()
+    .withMessage('last name is required'),
+])
