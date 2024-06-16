@@ -9,6 +9,12 @@ export const register = async (req, res, next) => {
         if(userExist){
             return next(new BadRequestError("User already exist"))
         }
+        const isFirstAccount = await User.countDocuments();
+        if(isFirstAccount === 0){
+            req.body.role ='admin'
+        } else {
+            req.body.role ='user'
+        }
         const user = await User.create(req.body);
         res.status(StatusCodes.CREATED).json({msg:"user register successfully", user})
     } catch (error) {
