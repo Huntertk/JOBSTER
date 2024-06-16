@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/userModel.js";
 import { BadRequestError } from "../errors/customErrors.js";
-
+import bcrypt from "bcryptjs";
 
 export const register = async (req, res, next) => {
     try {
@@ -15,8 +15,11 @@ export const register = async (req, res, next) => {
         } else {
             req.body.role ='user'
         }
-        const user = await User.create(req.body);
-        res.status(StatusCodes.CREATED).json({msg:"user register successfully", user})
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hashedPassword;
+        await User.create(req.body);
+        res.status(StatusCodes.CREATED).json({msg:"user register successfully"})
     } catch (error) {
         next(error)
     }
