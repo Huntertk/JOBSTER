@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/userModel.js";
-import { BadRequestError } from "../errors/customErrors.js";
-import { hashPassword } from "../utils/passwordUtils.js";
+import { BadRequestError, UnauthenticatedError } from "../errors/customErrors.js";
+import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
 
 export const register = async (req, res, next) => {
     try {
@@ -26,7 +26,18 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
     try {
-        res.send("Login")
+        const user = await User.findOne({email: req.body.email});
+        if(!user){
+            return next(new UnauthenticatedError("Wrong Credentials"))
+        }
+
+        const isPasswordCorrect = await comparePassword(req.body.password, user.password);
+
+        if(!isPasswordCorrect){
+            return next(new UnauthenticatedError("Wrong Credentials"))
+        }
+
+        res.status(StatusCodes.OK).json({msg:"user login successfully"})
     } catch (error) {
         next(error)
     }
