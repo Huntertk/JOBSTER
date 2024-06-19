@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import User from "../models/userModel.js";
 import { BadRequestError, UnauthenticatedError } from "../errors/customErrors.js";
 import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
+import { createJWT } from "../utils/tokenUtils.js";
 
 export const register = async (req, res, next) => {
     try {
@@ -36,8 +37,8 @@ export const login = async (req, res, next) => {
         if(!isPasswordCorrect){
             return next(new UnauthenticatedError("Wrong Credentials"))
         }
-
-        res.status(StatusCodes.OK).json({msg:"user login successfully"})
+        const token = createJWT({userId: user._id, role:user.role})
+        res.status(StatusCodes.OK).json({msg:"user login successfully", token})
     } catch (error) {
         next(error)
     }
