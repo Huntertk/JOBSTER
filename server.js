@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import jobRouter from './routes/jobRouter.js';
 import authRouter from './routes/authRouter.js';
@@ -17,6 +18,7 @@ const PORT = process.env.PORT || 4000
 
 //Middlewares
 app.use(express.json())
+app.use(cookieParser())
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
