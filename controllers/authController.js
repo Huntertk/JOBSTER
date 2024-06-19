@@ -38,7 +38,13 @@ export const login = async (req, res, next) => {
             return next(new UnauthenticatedError("Wrong Credentials"))
         }
         const token = createJWT({userId: user._id, role:user.role})
-        res.status(StatusCodes.OK).json({msg:"user login successfully", token})
+
+        res.status(StatusCodes.OK).cookie('token', token,{
+            httpOnly: true,
+            expires: new Date(Date.now() + 1000*60*60*24),
+            secure: process.env.NODE_ENV === 'production',
+        }).json({msg:"user login successfully"})
+
     } catch (error) {
         next(error)
     }
