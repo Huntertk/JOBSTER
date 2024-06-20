@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {createJob,deleteJob,getAllJobs,getJob,updateJob} from '../controllers/jobController.js'
-import { validateJobInput, validateIdParam } from "../middleware/validationMiddleware.js";
+import { validateJobInput, validateIdParam, validateOwner } from "../middleware/validationMiddleware.js";
 
 const router  = Router();
 
@@ -9,7 +9,7 @@ router.route('/')
     .post(validateJobInput, createJob)
 
 router.route('/:id')
-    .get(validateIdParam, getJob)
+    .get(validateIdParam, validateOwner, getJob)
     .patch(validateIdParam, validateJobInput, updateJob)
     .delete(validateIdParam, deleteJob)
 

@@ -3,6 +3,7 @@ import { body, param, validationResult } from 'express-validator';
 import { BadRequestError } from '../errors/customErrors.js';
 import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
+import Job from '../models/jobModel.js';
 
 
 const withValidationErrors = (validateValues) => {
@@ -76,3 +77,18 @@ export const validateLoginInput = withValidationErrors([
     .notEmpty()
     .withMessage('password is required'),
 ]);
+
+export const validateOwner = async (req, res, next) => {
+  try {
+    const job = await Job.findById(req.params.id)
+    if(!job){
+      return next(new BadRequestError(`No Job Found with this id ${req.params.id}`))
+    }
+    if(req.user.userId === job.createdBy.toString() || req.user.role == 'admin'){
+      return next()
+    }
+    return next(new BadRequestError(`You are not authorize to access this job`))
+  } catch (error) {
+    next(error)
+  }
+}
