@@ -6,7 +6,7 @@ import { NotFoundError } from '../errors/customErrors.js';
 //Get All Jobs
 export const getAllJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find();
+    const jobs = await Job.find({createdBy: req.user.userId});
     res.status(StatusCodes.OK).json({ jobs });
   } catch (error) {
     next(error)
@@ -16,6 +16,7 @@ export const getAllJobs = async (req, res, next) => {
 //Create Job
 export const createJob = async (req, res, next) => {
   try {
+      req.body.createdBy = req.user.userId
       const job = await Job.create(req.body);
       res.status(StatusCodes.CREATED).json({msg:"Job Created", job});
     
