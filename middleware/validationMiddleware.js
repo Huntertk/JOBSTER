@@ -84,10 +84,12 @@ export const validateOwner = async (req, res, next) => {
     if(!job){
       return next(new BadRequestError(`No Job Found with this id ${req.params.id}`))
     }
-    if(req.user.userId === job.createdBy.toString() || req.user.role == 'admin'){
-      return next()
+    const isAdmin = req.user.role === 'admin';
+    const isOwner = req.user.userId === job.createdBy.toString();
+    if (!isAdmin && !isOwner){
+      return next(new BadRequestError(`You are not authorize to access this job`))
     }
-    return next(new BadRequestError(`You are not authorize to access this job`))
+    next()
   } catch (error) {
     next(error)
   }
