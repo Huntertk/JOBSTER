@@ -49,3 +49,16 @@ export const login = async (req, res, next) => {
         next(error)
     }
 }
+
+
+export const logout = (req, res, next) => {
+    try {
+        res.status(StatusCodes.OK).cookie('token', 'token', {
+            httpOnly: true,
+            expires: new Date(Date.now()),
+            secure: process.env.NODE_ENV === 'production',
+        }).json({msg:"user logout successfully"})
+    } catch (error) {
+        next(error)
+    }
+}
