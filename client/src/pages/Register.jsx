@@ -13,7 +13,7 @@ export const action = async ({request}) => {
     return redirect('/login');
   } catch (error) {
     console.log(error);
-    toast.error("Error!!")
+    toast.error(error?.response?.data?.msg)
     return error;
   }
 }
@@ -56,7 +56,7 @@ const Register = () => {
           labelText={"password"}
           defaultValue={"password"}
         />
-        <button type='submit' className='btn btn-block' disabled={isSubmitting}>{isSubmitting ? "Submitting..." : "submit"}</button>
+        <button type='submit' className='btn btn-block' disabled={isSubmitting}>{isSubmitting ? "Processing..." : "register"}</button>
         <p>Already a member ?
           <Link to="/login" className='member-btn'>Login</Link>
         </p>
