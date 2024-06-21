@@ -1,18 +1,26 @@
 import Wrapper from '../assets/wrappers/Dashboard';
-import { Outlet } from 'react-router-dom';
+import { Outlet, redirect, useLoaderData } from 'react-router-dom';
 import { BigSidebar, Navbar, SmallSidebar } from '../components';
 import { createContext, useContext, useState } from 'react';
 import {checkDefaultTheme} from '../App'
 const DashboardContext = createContext();
 
 
+export const loader = async () => {
+  return "hello World"
+} 
 
 export const useDashboardContext = () => useContext(DashboardContext)
 
+
 const DashboardLayout = () => {
+
+  const data = useLoaderData();
+  console.log(data);
   const user = {name:"TAUFIK"}
   const [showSidebar, setShowSidebar] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme())
+  
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
