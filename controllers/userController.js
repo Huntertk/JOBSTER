@@ -23,6 +23,10 @@ export const getCurrentUser = async (req, res, next) => {
   
   export const updateUser = async (req, res, next) => {
     try {
+        const obj = {...req.body};
+        delete obj.password;
+        delete obj.role;
+        await User.findByIdAndUpdate(req.user.userId, obj)
         res.status(StatusCodes.OK).json({ msg: 'update user' });
     } catch (error) {
         next(error)
