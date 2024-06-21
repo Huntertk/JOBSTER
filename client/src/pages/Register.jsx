@@ -1,11 +1,16 @@
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
-import { Link } from 'react-router-dom'
+import { Form, redirect, useNavigation, Link } from 'react-router-dom';
 import {FormRow, Logo} from '../components';
+
+export const action = async (data) => {
+  console.log(data);
+  return null
+}
 
 const Register = () => {
   return (
     <Wrapper>
-      <form className="form">
+      <Form method='POST' className="form">
         <Logo />
         <h4>Register</h4>
         <FormRow 
@@ -39,11 +44,10 @@ const Register = () => {
           defaultValue={"password"}
         />
         <button type='submit' className='btn btn-block'>submit</button>
-        <button type='button' className='btn btn-block'>explore app</button>
         <p>Already a member ?
           <Link to="/login" className='member-btn'>Login</Link>
         </p>
-      </form>
+      </Form>
     </Wrapper>
   )
 }
