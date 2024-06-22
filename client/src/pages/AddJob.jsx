@@ -4,10 +4,10 @@ import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
 import { Form, useNavigation, redirect, useOutletContext } from 'react-router-dom';
 import toast  from 'react-hot-toast';
 import customFetch from '../utils/customFetch';
+import {FormRowSelect} from '../components';
 
 const AddJob = () => {
   const {user} = useOutletContext();
-  console.log(user);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting'
   
@@ -32,6 +32,19 @@ const AddJob = () => {
               labelText={"job location"}
               defaultValue={user.location}
               />
+              <FormRowSelect
+              defaultValue={JOB_STATUS.PENDING}
+              labelText={"Job Status"}
+              name={"jobStatus"}
+              list={Object.values(JOB_STATUS)}
+              />
+              <FormRowSelect
+              defaultValue={JOB_TYPE.FULL_TIME}
+              labelText={"Job Type"}
+              name={"jobType"}
+              list={Object.values(JOB_TYPE)}
+              />
+
               <button 
               type="submit" 
               className='btn btn-block form-btn' 
