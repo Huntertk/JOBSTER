@@ -10,7 +10,6 @@ import SearchContainer from "./SearchContainer";
 import SmallSidebar from "./SmallSidebar";
 import ThemeToggle from "./ThemeToggle";
 
-
 export {
     SearchContainer,
     JobsContainer,
