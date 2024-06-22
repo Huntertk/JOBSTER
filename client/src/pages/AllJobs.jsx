@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useContext } from 'react'
 import { redirect, useLoaderData } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 import toast from 'react-hot-toast';
@@ -14,15 +14,19 @@ export const loader = async () => {
   }
 }
 
+const AllJobsContext = createContext()
+
 const AllJobs = () => {
   const data = useLoaderData();
   console.log(data);
   return (
-    <>
+    <AllJobsContext.Provider value={{}}>
       <SearchContainer />
       <JobsContainer />
-    </>
+    </AllJobsContext.Provider>
   )
 }
+
+export const useAllJobsContext = () => useContext(AllJobsContext)
 
 export default AllJobs
