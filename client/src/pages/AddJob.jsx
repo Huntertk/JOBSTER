@@ -6,6 +6,19 @@ import toast  from 'react-hot-toast';
 import customFetch from '../utils/customFetch';
 import {FormRowSelect} from '../components';
 
+export const action = async ({request}) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    await customFetch.post('/jobs', data);
+    toast.success("Job Added Successfully");
+    return redirect("/dashboard/all-jobs");
+  } catch (error) {
+    toast.success(error?.response?.data?.msg);
+    return error;
+  }
+}
+
 const AddJob = () => {
   const {user} = useOutletContext();
   const navigation = useNavigation();
